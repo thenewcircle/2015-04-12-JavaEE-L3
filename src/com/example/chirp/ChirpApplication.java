@@ -6,6 +6,8 @@ import java.util.Set;
 import javax.ws.rs.ApplicationPath;
 import javax.ws.rs.core.Application;
 
+import com.example.chirp.rest.UserResource;
+
 @ApplicationPath("/api")
 public class ChirpApplication extends Application {
 
@@ -13,6 +15,7 @@ public class ChirpApplication extends Application {
 	public Set<Class<?>> getClasses() {
 		Set<Class<?>> classes = new HashSet<>();
 		classes.add(HelloResource.class);
+		classes.add(UserResource.class);
 		return classes;
 	}
 

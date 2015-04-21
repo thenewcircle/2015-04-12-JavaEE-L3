@@ -18,9 +18,9 @@ public interface UserRepository {
 	
 	public User findExactlyOne(Long id) throws EntityNotFoundException;
 	
-	public User findOneOrNull(String userName);
+	public User findOneOrNullByUserName(String userName);
 	
-	public User findExactlyOne(String userName) throws EntityNotFoundException;
+	public User findExactlyOneByUserName(String userName) throws EntityNotFoundException;
 	
 	public User createOrUpdate(User entity);
 
