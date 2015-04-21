@@ -5,12 +5,17 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.xml.bind.annotation.XmlAttribute;
+import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 @Entity
+@XmlRootElement
 public class User {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@XmlTransient
 	private Long id;
 	
 	@Column(unique=true)
@@ -18,14 +23,17 @@ public class User {
 	
 	private String realName;
 
+	@XmlTransient
 	public Long getId() {
 		return id;
 	}
 
+	@XmlTransient
 	public void setId(Long id) {
 		this.id = id;
 	}
 
+	@XmlAttribute
 	public String getUserName() {
 		return userName;
 	}

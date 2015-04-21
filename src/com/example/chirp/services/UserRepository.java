@@ -1,6 +1,6 @@
 package com.example.chirp.services;
 
-import javax.persistence.EntityNotFoundException;
+import javax.persistence.NoResultException;
 
 import com.example.chirp.model.User;
 
@@ -16,11 +16,11 @@ public interface UserRepository {
 
 	public User findOneOrNull(Long id);
 	
-	public User findExactlyOne(Long id) throws EntityNotFoundException;
+	public User findExactlyOne(Long id) throws NoResultException;
 	
 	public User findOneOrNullByUserName(String userName);
 	
-	public User findExactlyOneByUserName(String userName) throws EntityNotFoundException;
+	public User findExactlyOneByUserName(String userName) throws NoResultException;
 	
 	public User createOrUpdate(User entity);
 

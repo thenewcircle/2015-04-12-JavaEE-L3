@@ -1,8 +1,9 @@
 package com.example.chirp.services;
 
 import javax.ejb.Stateless;
+import javax.ejb.TransactionAttribute;
+import javax.ejb.TransactionAttributeType;
 import javax.persistence.EntityManager;
-import javax.persistence.EntityNotFoundException;
 import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
@@ -19,6 +20,7 @@ public class UserRepositorySessionBean implements UserRepository {
 	private EntityManager em;
 	
 	@Override
+	@TransactionAttribute(TransactionAttributeType.SUPPORTS)
 	public User create(String userName, String realName) {
 		User user = new User();
 		user.setUserName(userName);
@@ -28,12 +30,14 @@ public class UserRepositorySessionBean implements UserRepository {
 	}
 
 	@Override
-	public User findExactlyOne(Long id) throws EntityNotFoundException {
+	@TransactionAttribute(TransactionAttributeType.SUPPORTS)
+	public User findExactlyOne(Long id) throws NoResultException {
 		User user = em.find(User.class, id);
 		return user;
 	}
 
 	@Override
+	@TransactionAttribute(TransactionAttributeType.SUPPORTS)
 	public User findOneOrNull(Long id) {
 		try {
 			return findExactlyOne(id);
@@ -43,7 +47,8 @@ public class UserRepositorySessionBean implements UserRepository {
 	}
 
 	@Override
-	public User findExactlyOneByUserName(String userName) throws EntityNotFoundException {
+	@TransactionAttribute(TransactionAttributeType.SUPPORTS)
+	public User findExactlyOneByUserName(String userName) throws NoResultException {
 		String queryString = "from User u where u.userName=:user";
 		TypedQuery<User> query = em.createQuery(queryString, User.class);
 		
@@ -58,6 +63,7 @@ public class UserRepositorySessionBean implements UserRepository {
 	}
 
 	@Override
+	@TransactionAttribute(TransactionAttributeType.SUPPORTS)
 	public User findOneOrNullByUserName(String userName) {
 		try {
 			return findExactlyOneByUserName(userName);

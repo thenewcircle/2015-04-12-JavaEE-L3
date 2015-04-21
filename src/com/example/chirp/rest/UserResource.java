@@ -3,6 +3,7 @@ package com.example.chirp.rest;
 import java.net.URI;
 
 import javax.ejb.EJB;
+import javax.ejb.TransactionAttribute;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.PUT;
@@ -28,9 +29,23 @@ public class UserResource {
 	@Path("{userName}")
 	@Produces("text/plain")
 	@GET
-	public String findUser(@PathParam("userName") String userName) {
+	@TransactionAttribute()
+	public Response findUserAsText(@PathParam("userName") String userName) {
 		User user = userRepository.findExactlyOneByUserName(userName);
-		return user.getRealName();
+		return Response.ok(user.getRealName()).build();
+	}
+	
+	/**
+	 * GET http://localhost:8080/chirp/api/users/{userName}
+	 * Return user as xml or json
+	 */
+	@Path("{userName}")
+	@Produces({"text/xml", "application/xml", "application/json"})
+	@GET
+	@TransactionAttribute()
+	public Response findUser(@PathParam("userName") String userName) {
+		User user = userRepository.findExactlyOneByUserName(userName);
+		return Response.ok(user).build();
 	}
 	
 	/**
