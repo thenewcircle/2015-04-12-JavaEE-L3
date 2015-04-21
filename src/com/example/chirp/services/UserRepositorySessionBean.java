@@ -3,11 +3,11 @@ package com.example.chirp.services;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityNotFoundException;
+import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Expression;
 import javax.persistence.criteria.Root;
 
 import com.example.chirp.model.User;
@@ -37,7 +37,7 @@ public class UserRepositorySessionBean implements UserRepository {
 	public User findOneOrNull(Long id) {
 		try {
 			return findExactlyOne(id);
-		} catch (EntityNotFoundException e) {
+		} catch (NoResultException e) {
 			return null;
 		}
 	}
@@ -61,7 +61,7 @@ public class UserRepositorySessionBean implements UserRepository {
 	public User findOneOrNullByUserName(String userName) {
 		try {
 			return findExactlyOneByUserName(userName);
-		} catch (EntityNotFoundException e) {
+		} catch (NoResultException e) {
 			return null;
 		}
 	}

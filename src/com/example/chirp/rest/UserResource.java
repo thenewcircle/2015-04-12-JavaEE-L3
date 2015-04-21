@@ -1,5 +1,7 @@
 package com.example.chirp.rest;
 
+import java.net.URI;
+
 import javax.ejb.EJB;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
@@ -7,6 +9,8 @@ import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.core.Response;
+import javax.ws.rs.core.UriBuilder;
 
 import com.example.chirp.model.User;
 import com.example.chirp.services.UserRepository;
@@ -36,9 +40,27 @@ public class UserResource {
 	@Path("{userName}")
 	@Consumes("text/plain")
 	@PUT
-	public void createUser(@PathParam("userName") String userName, String realName) {
-		User user = userRepository.create(userName, realName);
+	public Response createUser(@PathParam("userName") String userName, String realName) {
+		User user = userRepository.findOneOrNullByUserName(userName);
+		if (user == null) {
+			user = userRepository.create(userName, realName);
+			URI uri = UriBuilder.fromPath("/users/{0}").build(userName);
+			return Response.created(uri).entity(realName).build();
+		} else {
+			user.setRealName(realName);
+			userRepository.createOrUpdate(user);
+			return Response.ok(realName).build();
+		}
 	}
 	
 }
+
+
+
+
+
+
+
+
+
 
