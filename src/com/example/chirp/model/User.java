@@ -27,7 +27,6 @@ public class User {
 		return id;
 	}
 
-	@XmlTransient
 	public void setId(Long id) {
 		this.id = id;
 	}
