@@ -15,7 +15,6 @@ public class User {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@XmlTransient
 	private Long id;
 	
 	@Column(unique=true)
