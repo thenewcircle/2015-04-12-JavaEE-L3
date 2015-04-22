@@ -9,6 +9,7 @@ import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriBuilder;
 
@@ -79,7 +80,9 @@ public class UserResource {
 	 * <code>GET /users</code>
 	 */
 	public Response findUsers() {
-		return null;
+		return Response.status(501)
+				.entity("Not implemented: " + "findUsers()")
+				.type(MediaType.TEXT_PLAIN_TYPE).build();
 	}
 
 	/**
@@ -89,7 +92,9 @@ public class UserResource {
 	 * <code>DELETE /users/dbateman</code>
 	 */
 	public Response deleteUser() {
-		return null;
+		return Response.status(501)
+				.entity("Not implemented: " + "deleteUser()")
+				.type(MediaType.TEXT_PLAIN_TYPE).build();
 	}
 
 }

@@ -1,6 +1,7 @@
 package com.example.chirp.rest;
 
-import javax.ws.rs.core.Request;
+import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
 
 public class MessageResource {
 	/**
@@ -9,8 +10,10 @@ public class MessageResource {
 	 * </p>
 	 * <code>POST /messages</code>
 	 */
-	public Request createMessage() {
-		return null;
+	public Response createMessage() {
+		return Response.status(501)
+				.entity("Not implemented: " + "createMessage()")
+				.type(MediaType.TEXT_PLAIN_TYPE).build();
 	}
 
 	/**
@@ -19,8 +22,10 @@ public class MessageResource {
 	 * </p>
 	 * <code>GET /messages/xsdsd</code>
 	 */
-	public Request getMessage() {
-		return null;
+	public Response getMessage() {
+		return Response.status(501)
+				.entity("Not implemented: " + "getMessage()")
+				.type(MediaType.TEXT_PLAIN_TYPE).build();
 	}
 
 	/**
@@ -29,8 +34,10 @@ public class MessageResource {
 	 * </p>
 	 * <code>GET /messages?username=dbateman</code>
 	 */
-	public Request findMessages() {
-		return null;
+	public Response findMessages() {
+		return Response.status(501)
+				.entity("Not implemented: " + "findMessages()")
+				.type(MediaType.TEXT_PLAIN_TYPE).build();
 	}
 
 	/**
@@ -39,8 +46,10 @@ public class MessageResource {
 	 * </p>
 	 * <code>DELETE /messages/xsdsd</code>
 	 */
-	public Request deleteMessage() {
-		return null;
+	public Response deleteMessage() {
+		return Response.status(501)
+				.entity("Not implemented: " + "deleteMessage()")
+				.type(MediaType.TEXT_PLAIN_TYPE).build();
 	}
 
 }
