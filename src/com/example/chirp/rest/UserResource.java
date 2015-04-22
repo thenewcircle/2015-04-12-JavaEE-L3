@@ -3,7 +3,6 @@ package com.example.chirp.rest;
 import java.net.URI;
 
 import javax.ejb.EJB;
-import javax.ejb.TransactionAttribute;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.PUT;
@@ -61,7 +60,7 @@ public class UserResource {
 
 	/**
 	 * <p>
-	 * Retrieve a user
+	 * Retrieve a user.
 	 * </p>
 	 * <code>GET /users/dbateman</code>
 	 */
@@ -79,6 +78,9 @@ public class UserResource {
 	 * </p>
 	 * <code>GET /users</code>
 	 */
+	public Response findUsers() {
+		return null;
+	}
 
 	/**
 	 * <p>
@@ -86,5 +88,8 @@ public class UserResource {
 	 * </p>
 	 * <code>DELETE /users/dbateman</code>
 	 */
+	public Response deleteUser() {
+		return null;
+	}
 
 }
