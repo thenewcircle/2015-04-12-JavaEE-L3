@@ -4,11 +4,13 @@ import java.net.URI;
 
 import javax.ejb.EJB;
 import javax.ws.rs.Consumes;
+import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriBuilder;
@@ -75,11 +77,12 @@ public class UserResource {
 
 	/**
 	 * <p>
-	 * Retrieve all users.
+	 * Query for users users.
 	 * </p>
-	 * <code>GET /users</code>
+	 * <code>GET /users?realName={realName}</code>
 	 */
-	public Response findUsers() {
+	@GET
+	public Response findUsers(@QueryParam("realName") String realName) {
 		return Response.status(501)
 				.entity("Not implemented: " + "findUsers()")
 				.type(MediaType.TEXT_PLAIN_TYPE).build();
@@ -91,7 +94,9 @@ public class UserResource {
 	 * </p>
 	 * <code>DELETE /users/dbateman</code>
 	 */
-	public Response deleteUser() {
+	@Path("{userName}")
+	@DELETE
+	public Response deleteUser(@PathParam("userName") String userName) {
 		return Response.status(501)
 				.entity("Not implemented: " + "deleteUser()")
 				.type(MediaType.TEXT_PLAIN_TYPE).build();
