@@ -21,41 +21,18 @@ public class UserResource {
 
 	@EJB
 	private UserRepository userRepository;
-	
+
 	/**
-	 * GET http://localhost:8080/chirp/api/users/{userName}
-	 * Return body as plain text: Real Name
-	 */
-	@Path("{userName}")
-	@Produces("text/plain")
-	@GET
-	@TransactionAttribute()
-	public Response findUserAsText(@PathParam("userName") String userName) {
-		User user = userRepository.findExactlyOneByUserName(userName);
-		return Response.ok(user.getRealName()).build();
-	}
-	
-	/**
-	 * GET http://localhost:8080/chirp/api/users/{userName}
-	 * Return user as xml or json
-	 */
-	@Path("{userName}")
-	@Produces({"text/xml", "application/xml", "application/json"})
-	@GET
-	@TransactionAttribute()
-	public Response findUser(@PathParam("userName") String userName) {
-		User user = userRepository.findExactlyOneByUserName(userName);
-		return Response.ok(user).build();
-	}
-	
-	/**
-	 * PUT http://localhost:8080/chirp/api/users/{userName}
-	 * Upload body as plain text: Real Name
+	 * <p>
+	 * Create a user.
+	 * </p>
+	 * <code>PUT /users/dbateman</code>
 	 */
 	@Path("{userName}")
 	@Consumes("text/plain")
 	@PUT
-	public Response createUser(@PathParam("userName") String userName, String realName) {
+	public Response createUser(@PathParam("userName") String userName,
+			String realName) {
 		User user = userRepository.findOneOrNullByUserName(userName);
 		if (user == null) {
 			user = userRepository.create(userName, realName);
@@ -67,15 +44,47 @@ public class UserResource {
 			return Response.ok(realName).build();
 		}
 	}
-	
+
+	/**
+	 * <p>
+	 * Retrieve a user as plain text.
+	 * </p>
+	 * <code>GET /users/dbateman</code>
+	 */
+	@Path("{userName}")
+	@Produces("text/plain")
+	@GET
+	public Response findUserAsText(@PathParam("userName") String userName) {
+		User user = userRepository.findExactlyOneByUserName(userName);
+		return Response.ok(user.getRealName()).build();
+	}
+
+	/**
+	 * <p>
+	 * Retrieve a user
+	 * </p>
+	 * <code>GET /users/dbateman</code>
+	 */
+	@Path("{userName}")
+	@Produces({ "text/xml", "application/xml", "application/json" })
+	@GET
+	public Response findUser(@PathParam("userName") String userName) {
+		User user = userRepository.findExactlyOneByUserName(userName);
+		return Response.ok(user).build();
+	}
+
+	/**
+	 * <p>
+	 * Retrieve all users.
+	 * </p>
+	 * <code>GET /users</code>
+	 */
+
+	/**
+	 * <p>
+	 * Delete a user.
+	 * </p>
+	 * <code>DELETE /users/dbateman</code>
+	 */
+
 }
-
-
-
-
-
-
-
-
-
-
