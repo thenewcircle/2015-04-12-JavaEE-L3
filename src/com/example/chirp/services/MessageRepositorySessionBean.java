@@ -2,6 +2,7 @@ package com.example.chirp.services;
 
 import java.util.List;
 
+import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.persistence.EntityExistsException;
 import javax.persistence.EntityManager;
@@ -19,7 +20,10 @@ public class MessageRepositorySessionBean implements MessageRepository {
 
 	@PersistenceContext
 	private EntityManager em;
-
+	
+	@EJB
+	UserRepository userRepository;
+	
 	@Override
 	public Message createMessage(Message message) {
 		if (message.getId() != null) {

@@ -15,13 +15,18 @@ public class UserDTO {
 	private User entity;
 
 	public UserDTO() {
-		this.entity = new User();
+		this(null);
 	}
 
 	public UserDTO(User entity) {
-		this.entity = entity;
+		if (entity != null) {
+			this.entity = entity;
+		} else {
+			this.entity = new User();
+		}
 	}
 
+	@XmlAttribute
 	public String getUserName() {
 		return entity.getUserName();
 	}

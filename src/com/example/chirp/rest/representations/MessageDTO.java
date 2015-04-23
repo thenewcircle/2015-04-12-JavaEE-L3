@@ -16,11 +16,15 @@ public class MessageDTO {
 	private Message entity;
 
 	public MessageDTO() {
-		this.entity = new Message();
+		this(null);
 	}
 
 	public MessageDTO(Message entity) {
-		this.entity = entity;
+		if (entity != null) {
+			this.entity = entity;
+		} else {
+			this.entity = new Message();
+		}
 	}
 
 	@XmlAttribute

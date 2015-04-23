@@ -19,6 +19,7 @@ import com.example.chirp.model.User;
 import com.example.chirp.rest.representations.MessageDTO;
 import com.example.chirp.rest.representations.MessageListDTO;
 import com.example.chirp.services.MessageRepository;
+import com.example.chirp.services.UserRepository;
 
 @Path("messages")
 public class MessageResource {
@@ -26,6 +27,9 @@ public class MessageResource {
 	@Inject  // Same as @EJB for our purposes.
 	private MessageRepository messageRepository;
 
+	@Inject
+	private UserRepository userRepository;
+	
 	/**
 	 * <p>
 	 * A user creates a message.
@@ -35,10 +39,14 @@ public class MessageResource {
 	@POST
 	@Consumes({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
 	@Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
-	public Response createMessage(Message message) {
+	public Response createMessage(MessageDTO messageDTO) {
+		String userName = messageDTO.getUser().getUserName();
+		User user = userRepository.findExactlyOneByUserName(userName);
+		Message message = messageDTO.toEntity();
+		message.setUser(user);
 		message = messageRepository.createMessage(message);
-		MessageDTO dto = new MessageDTO(message);
-		return Response.ok(dto).build();
+		messageDTO = new MessageDTO(message);
+		return Response.ok(messageDTO).build();
 	}
 
 	/**
