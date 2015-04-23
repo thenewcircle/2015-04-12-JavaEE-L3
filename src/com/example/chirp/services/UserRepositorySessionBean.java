@@ -26,7 +26,6 @@ public class UserRepositorySessionBean implements UserRepository {
 	private EntityManager em;
 	
 	@Override
-	@TransactionAttribute(TransactionAttributeType.SUPPORTS)
 	public User create(String userName, String realName) {
 		User user = new User();
 		user.setUserName(userName);

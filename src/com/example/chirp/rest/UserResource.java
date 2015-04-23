@@ -2,8 +2,16 @@ package com.example.chirp.rest;
 
 import java.net.URI;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.Future;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.TimeoutException;
 
-import javax.ejb.EJB;
+import javax.inject.Inject;
+import javax.jms.JMSException;
+import javax.jms.Message;
+import javax.jms.MessageListener;
+import javax.jms.ObjectMessage;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.PUT;
@@ -18,13 +26,17 @@ import javax.ws.rs.core.UriBuilder;
 import com.example.chirp.model.User;
 import com.example.chirp.rest.representations.UserDTO;
 import com.example.chirp.rest.representations.UserListDTO;
+import com.example.chirp.services.RemoteService;
 import com.example.chirp.services.UserRepository;
 
 @Path("/users")
 public class UserResource {
 
-	@EJB
+	@Inject
 	private UserRepository userRepository;
+
+	@Inject
+	private RemoteService remoteService;
 
 	/**
 	 * <p>
@@ -74,9 +86,17 @@ public class UserResource {
 	@Produces({ "text/xml", "application/xml", "application/json" })
 	@GET
 	public Response findUser(@PathParam("userName") String userName) {
-		User user = userRepository.findExactlyOneByUserName(userName);
-		UserDTO result = new UserDTO(user, false);
-		return Response.ok(result).build();
+		JmsFuture futureResult = new JmsFuture();
+		remoteService.sendRemoteRequest("userRepository",
+				"findExactlyOneByUserName", futureResult, userName);
+		try {
+			User user = (User) futureResult.get(30, TimeUnit.SECONDS);
+			// User user = userRepository.findExactlyOneByUserName(userName);
+			UserDTO result = new UserDTO(user, false);
+			return Response.ok(result).build();
+		} catch (Exception e) {
+			throw new RuntimeException(e);
+		}
 	}
 
 	/**
@@ -107,6 +127,59 @@ public class UserResource {
 		return Response.status(501)
 				.entity("Not implemented: " + "deleteUser()")
 				.type(MediaType.TEXT_PLAIN_TYPE).build();
+	}
+
+}
+
+
+class JmsFuture implements Future<Object>, MessageListener {
+
+	private Object result;
+
+	@Override
+	public synchronized void onMessage(Message message) {
+		try {
+			ObjectMessage objectMessage = (ObjectMessage) message;
+			this.result = objectMessage.getObject();
+		} catch (JMSException e) {
+			e.printStackTrace();
+		} finally {
+			if (result == null)
+				result = "ERROR!";
+			this.notifyAll();
+		}
+	}
+
+	@Override
+	public boolean cancel(boolean mayInterruptIfRunning) {
+		return false;
+	}
+
+	@Override
+	public boolean isCancelled() {
+		return false;
+	}
+
+	@Override
+	public boolean isDone() {
+		return result != null;
+	}
+
+	@Override
+	public synchronized Object get() throws InterruptedException,
+			ExecutionException {
+		while (result == null) {
+			this.wait();
+		}
+		return result;
+	}
+
+	@Override
+	public synchronized Object get(long timeout, TimeUnit unit)
+			throws InterruptedException, ExecutionException, TimeoutException {
+		// Needs improving
+		this.wait(timeout * 1000);
+		return result;
 	}
 
 }

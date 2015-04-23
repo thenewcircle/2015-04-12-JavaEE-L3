@@ -13,7 +13,7 @@ import javax.jms.TextMessage;
 @Stateless
 public class HelloSenderSessionBean implements HelloSender {
 	
-	@Resource(name="java:/ConnectionFactory")
+	@Resource(name="java:/JmsXA")
 	private ConnectionFactory jms;
 	
 	@Resource(name="java:jboss/exported/jms/queue/test")
@@ -27,7 +27,7 @@ public class HelloSenderSessionBean implements HelloSender {
 		Connection connection = null;
 		try {
 			connection = jms.createConnection();
-			Session session = connection.createSession(false, Session.AUTO_ACKNOWLEDGE);
+			Session session = connection.createSession(true, Session.AUTO_ACKNOWLEDGE);
 			MessageProducer sender = session.createProducer(destination);
 			TextMessage message = session.createTextMessage(text);
 			sender.send(message);

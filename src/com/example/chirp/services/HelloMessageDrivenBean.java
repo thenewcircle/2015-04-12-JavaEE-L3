@@ -7,9 +7,9 @@ import javax.jms.Message;
 import javax.jms.MessageListener;
 import javax.jms.TextMessage;
 
-@MessageDriven(activationConfig = {
-		@ActivationConfigProperty(propertyName = "destinationType", propertyValue = "javax.jms.Queue"),
-		@ActivationConfigProperty(propertyName = "destination", propertyValue = "java:jboss/exported/jms/queue/test") })
+//@MessageDriven(activationConfig = {
+//		@ActivationConfigProperty(propertyName = "destinationType", propertyValue = "javax.jms.Queue"),
+//		@ActivationConfigProperty(propertyName = "destination", propertyValue = "java:jboss/exported/jms/queue/test") })
 public class HelloMessageDrivenBean implements MessageListener {
 
 	@Override
