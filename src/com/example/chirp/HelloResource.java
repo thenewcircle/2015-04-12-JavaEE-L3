@@ -1,5 +1,6 @@
 package com.example.chirp;
 
+import javax.inject.Inject;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -7,9 +8,14 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 
+import com.example.chirp.services.HelloSender;
+
 @Path("/hello")
 public class HelloResource {
 
+	@Inject
+	HelloSender helloSender;
+	
 	@GET
 	@Produces("text/html")
 	public String sayHello() {
@@ -23,6 +29,7 @@ public class HelloResource {
 	@Produces("text/html")
 	@Path("{name}")
 	public String sayHello(@PathParam("name") String name) {
+		helloSender.sendHelloMessage("Hello " + name);
 		return String.format("<h1>Hello %s</h1>%n", name);
 	}
 	
