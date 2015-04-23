@@ -1,6 +1,7 @@
 package com.example.chirp.rest;
 
 import java.net.URI;
+import java.util.List;
 
 import javax.ejb.EJB;
 import javax.ws.rs.Consumes;
@@ -17,6 +18,7 @@ import javax.ws.rs.core.UriBuilder;
 
 import com.example.chirp.model.User;
 import com.example.chirp.rest.representations.UserDTO;
+import com.example.chirp.rest.representations.UserListDTO;
 import com.example.chirp.services.UserRepository;
 
 @Path("/users")
@@ -84,10 +86,13 @@ public class UserResource {
 	 * <code>GET /users?realName={realName}</code>
 	 */
 	@GET
+	@Produces({ "text/xml", "application/xml", "application/json" })
 	public Response findUsers(@QueryParam("realName") String realName) {
-		return Response.status(501)
-				.entity("Not implemented: " + "findUsers()")
-				.type(MediaType.TEXT_PLAIN_TYPE).build();
+		User example = new User();
+		example.setRealName(realName);
+		List<User> userList = userRepository.queryByExample(example);
+		UserListDTO dto = new UserListDTO(userList);
+		return Response.ok(dto).build();
 	}
 
 	/**

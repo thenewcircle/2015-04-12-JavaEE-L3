@@ -1,5 +1,7 @@
 package com.example.chirp.services;
 
+import java.util.List;
+
 import javax.persistence.NoResultException;
 
 import com.example.chirp.model.User;
@@ -27,5 +29,7 @@ public interface UserRepository {
 	public void delete(Long id);
 	
 	public void delete(String userName);
+
+	public List<User> queryByExample(User example);
 	
 }

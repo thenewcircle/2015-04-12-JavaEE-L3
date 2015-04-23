@@ -48,4 +48,8 @@ public class UserDTO {
 	public void setSelf(String self) {
 	}
 
+	public User toEntity() {
+		return this.entity;
+	}
+
 }

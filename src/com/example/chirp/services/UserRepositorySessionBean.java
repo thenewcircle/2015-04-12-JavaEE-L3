@@ -1,5 +1,7 @@
 package com.example.chirp.services;
 
+import java.util.List;
+
 import javax.ejb.Stateless;
 import javax.ejb.TransactionAttribute;
 import javax.ejb.TransactionAttributeType;
@@ -93,6 +95,13 @@ public class UserRepositorySessionBean implements UserRepository {
 	public void delete(String userName) {
 		User user = findExactlyOneByUserName(userName);
 		em.remove(user);
+	}
+
+	@Override
+	public List<User> queryByExample(User example) {
+		//We're lazy and won't do the by example here... see message for that.
+		List<User> result = em.createQuery("from User", User.class).getResultList();
+		return result;
 	}
 
 }
