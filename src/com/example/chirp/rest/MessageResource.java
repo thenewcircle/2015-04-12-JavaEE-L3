@@ -1,6 +1,5 @@
 package com.example.chirp.rest;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -12,11 +11,12 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
-import javax.ws.rs.core.GenericEntity;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 import com.example.chirp.model.Message;
+import com.example.chirp.rest.representations.MessageDTO;
+import com.example.chirp.rest.representations.MessageListDTO;
 import com.example.chirp.services.MessageRepository;
 
 @Path("messages")
@@ -36,7 +36,8 @@ public class MessageResource {
 	@Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
 	public Response createMessage(Message message) {
 		message = messageRepository.createMessage(message);
-		return Response.ok(message).build();
+		MessageDTO dto = new MessageDTO(message);
+		return Response.ok(dto).build();
 	}
 
 	/**
@@ -51,7 +52,8 @@ public class MessageResource {
 	@Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
 	public Response getMessage(@PathParam("messageId") String messageId) {
 		Message message = messageRepository.findExactlyOne(messageId);
-		return Response.ok(message).build();
+		MessageDTO dto = new MessageDTO(message);
+		return Response.ok(dto).build();
 	}
 
 	/**
@@ -68,9 +70,8 @@ public class MessageResource {
 		example.setUserName(userName);
 		example.setText(text);
 		List<Message> messages = messageRepository.queryByExample(example, offset, limit);
-		messages = new ArrayList<Message>(messages) {};
-		GenericEntity<List<Message>> body = new GenericEntity<List<Message>>(messages) {}; 
-		return Response.ok(messages).build();
+		MessageListDTO dto = new MessageListDTO(messages);
+		return Response.ok(dto).build();
 	}
 
 	/**

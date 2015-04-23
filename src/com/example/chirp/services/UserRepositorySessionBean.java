@@ -17,7 +17,6 @@ import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.criterion.Example;
 
-import com.example.chirp.model.Message;
 import com.example.chirp.model.User;
 
 @Stateless
@@ -105,7 +104,7 @@ public class UserRepositorySessionBean implements UserRepository {
 	@Override
 	public List<User> queryByExample(User example, Integer offset, Integer limit) {
 		Session hibernate = (Session) em.getDelegate();
-		Criteria criteria = hibernate.createCriteria(Message.class).add(Example.create(example));
+		Criteria criteria = hibernate.createCriteria(User.class).add(Example.create(example));
 		if (offset != null)
 			criteria.setFirstResult(offset);
 		if (limit != null)

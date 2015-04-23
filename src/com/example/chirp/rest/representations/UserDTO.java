@@ -1,5 +1,6 @@
 package com.example.chirp.rest.representations;
 
+import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlRootElement;
 
 import org.codehaus.jackson.annotate.JsonAutoDetect;
@@ -37,6 +38,7 @@ public class UserDTO {
 		entity.setRealName(realName);
 	}
 
+	@XmlAttribute
 	public String getSelf() {
 		String userName = getUserName();
 		if (userName == null)

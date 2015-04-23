@@ -1,0 +1,66 @@
+package com.example.chirp.rest.representations;
+
+import javax.xml.bind.annotation.XmlAttribute;
+import javax.xml.bind.annotation.XmlRootElement;
+
+import org.codehaus.jackson.annotate.JsonAutoDetect;
+import org.codehaus.jackson.annotate.JsonAutoDetect.Visibility;
+
+import com.example.chirp.model.Message;
+
+@XmlRootElement(name = "Message")
+@JsonAutoDetect(fieldVisibility = Visibility.NONE, getterVisibility = Visibility.PUBLIC_ONLY)
+public class MessageDTO {
+
+	private Message entity;
+
+	public MessageDTO() {
+		this.entity = new Message();
+	}
+
+	public MessageDTO(Message entity) {
+		this.entity = entity;
+	}
+
+	@XmlAttribute
+	public Long getId() {
+		return entity.getId();
+	}
+
+	public void setId(Long id) {
+		entity.setId(id);
+	}
+
+	public String getUserName() {
+		return entity.getUserName();
+	}
+
+	public void setUserName(String userName) {
+		entity.setUserName(userName);
+	}
+
+	public String getText() {
+		return entity.getText();
+	}
+
+	public void setText(String text) {
+		entity.setText(text);
+	}
+
+	@XmlAttribute
+	public String getSelf() {
+		Long id = getId();
+		if (id == null)
+			return null;
+		String self = "/chirp-solution/api/message/" + id;
+		return self;
+	}
+
+	public void setSelf(String self) {
+	}
+
+	public Message toEntity() {
+		return this.entity;
+	}
+
+}
