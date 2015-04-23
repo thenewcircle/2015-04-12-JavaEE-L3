@@ -15,6 +15,7 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 import com.example.chirp.model.Message;
+import com.example.chirp.model.User;
 import com.example.chirp.rest.representations.MessageDTO;
 import com.example.chirp.rest.representations.MessageListDTO;
 import com.example.chirp.services.MessageRepository;
@@ -67,7 +68,9 @@ public class MessageResource {
 			@QueryParam("contains") String text, @QueryParam("offset") Integer offset,
 			@QueryParam("limit") Integer limit) {
 		Message example = new Message();
-		example.setUserName(userName);
+		User exampleUser = new User();
+		exampleUser.setUserName(userName);
+		example.setUser(exampleUser);
 		example.setText(text);
 		List<Message> messages = messageRepository.queryByExample(example, offset, limit);
 		MessageListDTO dto = new MessageListDTO(messages);

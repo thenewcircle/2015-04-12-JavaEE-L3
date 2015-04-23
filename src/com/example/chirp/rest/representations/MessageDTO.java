@@ -7,6 +7,7 @@ import org.codehaus.jackson.annotate.JsonAutoDetect;
 import org.codehaus.jackson.annotate.JsonAutoDetect.Visibility;
 
 import com.example.chirp.model.Message;
+import com.example.chirp.model.User;
 
 @XmlRootElement(name = "Message")
 @JsonAutoDetect(fieldVisibility = Visibility.NONE, getterVisibility = Visibility.PUBLIC_ONLY)
@@ -31,12 +32,15 @@ public class MessageDTO {
 		entity.setId(id);
 	}
 
-	public String getUserName() {
-		return entity.getUserName();
+	public UserDTO getUser() {
+		User user = entity.getUser();
+		UserDTO dto = new UserDTO(user);
+		return dto;
 	}
 
-	public void setUserName(String userName) {
-		entity.setUserName(userName);
+	public void setUser(UserDTO userDTO) {
+		User user = userDTO.toEntity();
+		entity.setUser(user);
 	}
 
 	public String getText() {

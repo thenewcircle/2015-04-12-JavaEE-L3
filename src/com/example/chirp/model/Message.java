@@ -4,6 +4,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 
 @Entity
 public class Message {
@@ -11,8 +13,10 @@ public class Message {
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Long id;
-	
-	private String userName;
+
+	@ManyToOne
+	@JoinColumn(name="USERNAME", referencedColumnName="USERNAME")
+	private User user;
 	
 	private String text;
 
@@ -24,12 +28,12 @@ public class Message {
 		this.id = id;
 	}
 
-	public String getUserName() {
-		return userName;
+	public User getUser() {
+		return user;
 	}
 
-	public void setUserName(String userName) {
-		this.userName = userName;
+	public void setUser(User user) {
+		this.user = user;
 	}
 
 	public String getText() {
@@ -46,8 +50,7 @@ public class Message {
 		int result = 1;
 		result = prime * result + ((id == null) ? 0 : id.hashCode());
 		result = prime * result + ((text == null) ? 0 : text.hashCode());
-		result = prime * result
-				+ ((userName == null) ? 0 : userName.hashCode());
+		result = prime * result + ((user == null) ? 0 : user.hashCode());
 		return result;
 	}
 
@@ -70,19 +73,17 @@ public class Message {
 				return false;
 		} else if (!text.equals(other.text))
 			return false;
-		if (userName == null) {
-			if (other.userName != null)
+		if (user == null) {
+			if (other.user != null)
 				return false;
-		} else if (!userName.equals(other.userName))
+		} else if (!user.equals(other.user))
 			return false;
 		return true;
 	}
 
 	@Override
 	public String toString() {
-		return "Message [id=" + id + ", userName=" + userName + ", text="
-				+ text + "]";
+		return "Message [id=" + id + ", user=" + user + ", text=" + text + "]";
 	}
 
-	
 }
