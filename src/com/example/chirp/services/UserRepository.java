@@ -30,6 +30,6 @@ public interface UserRepository {
 	
 	public void delete(String userName);
 
-	public List<User> queryByExample(User example);
+	List<User> queryByExample(User example, Integer offset, Integer limit);
 	
 }

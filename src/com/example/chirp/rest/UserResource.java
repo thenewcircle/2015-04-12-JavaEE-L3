@@ -90,7 +90,7 @@ public class UserResource {
 	public Response findUsers(@QueryParam("realName") String realName) {
 		User example = new User();
 		example.setRealName(realName);
-		List<User> userList = userRepository.queryByExample(example);
+		List<User> userList = userRepository.queryByExample(example, 0, 1000);
 		UserListDTO dto = new UserListDTO(userList);
 		return Response.ok(dto).build();
 	}

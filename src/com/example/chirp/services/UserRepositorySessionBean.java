@@ -13,6 +13,11 @@ import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 
+import org.hibernate.Criteria;
+import org.hibernate.Session;
+import org.hibernate.criterion.Example;
+
+import com.example.chirp.model.Message;
 import com.example.chirp.model.User;
 
 @Stateless
@@ -98,11 +103,16 @@ public class UserRepositorySessionBean implements UserRepository {
 	}
 
 	@Override
-	public List<User> queryByExample(User example) {
-		//We're lazy and won't do the by example here... see message for that.
-		List<User> result = em.createQuery("from User", User.class).getResultList();
+	public List<User> queryByExample(User example, Integer offset, Integer limit) {
+		Session hibernate = (Session) em.getDelegate();
+		Criteria criteria = hibernate.createCriteria(Message.class).add(Example.create(example));
+		if (offset != null)
+			criteria.setFirstResult(offset);
+		if (limit != null)
+			criteria.setMaxResults(limit);
+		@SuppressWarnings("unchecked")
+		List<User> result = criteria.list();
 		return result;
 	}
 
 }
-
