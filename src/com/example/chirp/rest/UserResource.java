@@ -16,6 +16,7 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriBuilder;
 
 import com.example.chirp.model.User;
+import com.example.chirp.rest.representations.UserDTO;
 import com.example.chirp.services.UserRepository;
 
 @Path("/users")
@@ -72,7 +73,8 @@ public class UserResource {
 	@GET
 	public Response findUser(@PathParam("userName") String userName) {
 		User user = userRepository.findExactlyOneByUserName(userName);
-		return Response.ok(user).build();
+		UserDTO result = new UserDTO(user);
+		return Response.ok(result).build();
 	}
 
 	/**

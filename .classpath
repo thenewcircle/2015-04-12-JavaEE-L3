@@ -14,5 +14,7 @@
 		</attributes>
 	</classpathentry>
 	<classpathentry kind="con" path="org.eclipse.datatools.connectivity.jdt.DRIVERLIBRARY/H2"/>
+	<classpathentry kind="lib" path="C:/Dev/jboss-as-7.1.1.Final/modules/org/codehaus/jackson/jackson-core-asl/main/jackson-core-asl-1.9.2.jar"/>
+	<classpathentry kind="lib" path="C:/Dev/jboss-as-7.1.1.Final/modules/org/hibernate/main/hibernate-core-4.0.1.Final.jar"/>
 	<classpathentry kind="output" path="build/classes"/>
 </classpath>
