@@ -4,7 +4,6 @@ import java.net.URI;
 import java.util.List;
 
 import javax.ejb.EJB;
-import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.PUT;
@@ -34,7 +33,7 @@ public class UserResource {
 	 * <code>PUT /users/dbateman</code>
 	 */
 	@Path("{userName}")
-	@Consumes("text/plain")
+	@Produces({ "text/xml", "application/xml", "application/json" })
 	@PUT
 	public Response createUser(@PathParam("userName") String userName,
 			String realName) {
@@ -45,8 +44,9 @@ public class UserResource {
 			return Response.created(uri).entity(realName).build();
 		} else {
 			user.setRealName(realName);
-			userRepository.createOrUpdate(user);
-			return Response.ok(realName).build();
+			user = userRepository.createOrUpdate(user);
+			UserDTO dto = new UserDTO(user);
+			return Response.ok(dto).build();
 		}
 	}
 
