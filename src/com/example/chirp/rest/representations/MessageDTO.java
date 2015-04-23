@@ -38,7 +38,7 @@ public class MessageDTO {
 
 	public UserDTO getUser() {
 		User user = entity.getUser();
-		UserDTO dto = new UserDTO(user);
+		UserDTO dto = new UserDTO(user, true);
 		return dto;
 	}
 

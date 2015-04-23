@@ -9,21 +9,25 @@ import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
+import org.codehaus.jackson.annotate.JsonWriteNullProperties;
+
 import com.example.chirp.model.User;
 
 @XmlRootElement(name="user-list")
+@JsonWriteNullProperties(false)
 public final class UserListDTO implements Serializable {
 
 	private static final long serialVersionUID = 8613456080588682667L;
 	private List<UserDTO> entity;
 
 	public UserListDTO() {
+
 	}
 	
-	public UserListDTO(Collection<User> users) {
+	public UserListDTO(Collection<User> users, boolean microVersion) {
 		entity = new ArrayList<UserDTO>(users.size());
 		for (User u : users) {
-			UserDTO dto = new UserDTO(u);
+			UserDTO dto = new UserDTO(u, microVersion);
 			entity.add(dto);
 		}
 	}

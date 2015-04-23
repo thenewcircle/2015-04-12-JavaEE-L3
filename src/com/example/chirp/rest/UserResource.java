@@ -45,7 +45,7 @@ public class UserResource {
 		} else {
 			user.setRealName(realName);
 			user = userRepository.createOrUpdate(user);
-			UserDTO dto = new UserDTO(user);
+			UserDTO dto = new UserDTO(user, false);
 			return Response.ok(dto).build();
 		}
 	}
@@ -75,7 +75,7 @@ public class UserResource {
 	@GET
 	public Response findUser(@PathParam("userName") String userName) {
 		User user = userRepository.findExactlyOneByUserName(userName);
-		UserDTO result = new UserDTO(user);
+		UserDTO result = new UserDTO(user, false);
 		return Response.ok(result).build();
 	}
 
@@ -91,7 +91,7 @@ public class UserResource {
 		User example = new User();
 		example.setRealName(realName);
 		List<User> userList = userRepository.queryByExample(example, 0, 1000);
-		UserListDTO dto = new UserListDTO(userList);
+		UserListDTO dto = new UserListDTO(userList, false);
 		return Response.ok(dto).build();
 	}
 

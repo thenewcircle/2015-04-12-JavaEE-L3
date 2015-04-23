@@ -13,12 +13,14 @@ import com.example.chirp.model.User;
 public class UserDTO {
 
 	private User entity;
+	private boolean microVersion;
 
 	public UserDTO() {
-		this(null);
+		this(null, false);
 	}
-
-	public UserDTO(User entity) {
+	
+	public UserDTO(User entity, boolean microVersion) {
+		this.microVersion = microVersion;
 		if (entity != null) {
 			this.entity = entity;
 		} else {
@@ -36,6 +38,8 @@ public class UserDTO {
 	}
 
 	public String getRealName() {
+		if (microVersion)
+			return null;
 		return entity.getRealName();
 	}
 
